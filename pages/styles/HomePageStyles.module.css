@@ -1,0 +1,142 @@
+.mainContainer {
+  width: 100%; 
+  max-width: 1200px;
+  margin: 0 auto; 
+  padding: 16px;
+  box-sizing: border-box;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    color: white;
+    text-align: center;
+  }
+
+  .lineBelowReportTitle {
+    height: 2px; 
+    background-color: rgb(0, 0, 0); 
+    width: 100%; 
+    margin-top: 10px; 
+  }
+  
+  .logo {
+    width: 150px; 
+    height: auto;
+  }
+  
+  .navbar {
+    display: flex;
+    gap: 1rem;
+  }
+
+
+.loadingBarContainer {
+  width: 100%;
+  background-color: #ffffff; 
+  border-radius: 8px; 
+  overflow: hidden; 
+  height: 20px; 
+}
+
+
+.noIssueMessage {
+  background-color: #d4edda; 
+  color: #155724; 
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid #c3e6cb;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  height: 100px;
+
+}
+
+.titleWithIcon {
+  display: flex;
+  align-items: center; 
+  gap: 10px; 
+}
+
+.clearButton img {
+  width: 24px;  
+  height: auto; 
+}
+
+.loadingBar {
+  height: 20px; 
+  background-color: #ff0000; 
+  width: 0%; 
+  transition: width 0.5s ease-in-out; 
+  border-radius: 8px; 
+}
+
+
+  
+  .navLink {
+    /* color: white; */
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+    text-decoration: underline;
+  }
+  
+  .navLink:hover {
+    background-color: rgb(211, 201, 201);
+    
+  }
+  
+  .content {
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .fileItem{
+    padding: 20px;
+    margin: 2rem auto;
+    width: 30%; 
+    background-color: #eba4a4;
+    cursor: pointer;
+    min-width: 200px;
+    border-radius: 25px;
+  }
+
+  .fileList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; 
+  }
+
+  .dropBoxHover {
+    border: 2px dashed #df6a6a;
+      padding: 40px;
+      margin: 2rem auto;
+      width: 50%;
+      cursor: pointer;
+      background-color: #fdaeae; 
+  }
+  
+  .dragBox {
+    border: 2px dashed #ff0000;
+    padding: 40px;
+    margin: 2rem auto;
+    width: 50%; 
+    cursor: pointer;
+    background-color: #fffefe; 
+  }
+  
+  .lineBelowLogo {
+    height: 2px; 
+    background-color: rgb(174, 174, 174); 
+    width: 100%;
+    margin-top: 10px; 
+  }
+  
