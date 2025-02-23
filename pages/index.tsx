@@ -12,6 +12,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import styles from "./styles/HomePageStyles.module.css";
+import reportStyles from "./styles/ReportStyles.module.css";
 
 import FunctionLengthReport from "./components/FunctionLengthReport";
 import DuplicateCodeReport from "./components/DuplicateCodeReport";
@@ -118,7 +119,7 @@ const index: React.FC = () => {
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [currentReportFileName, setCurrentReportFileName] = useState("");
 
-  const reportSectionRef = useRef<HTMLDivElement>(null); // Automatic Scroll Functionality
+  // const reportSectionRef = useRef<HTMLDivElement>(null); // Automatic Scroll Functionality
 
   // Loading Bar CSS
   const LoadingBar: React.FC<LoadingBarProps> = ({ progress }) => (
@@ -147,11 +148,11 @@ const index: React.FC = () => {
     }, []),
   });
   // No Issue Report Structures
-  useEffect(() => {
-    if (currentReportFileName && !uploading) {
-      reportSectionRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [currentReportFileName, uploading]);
+  // useEffect(() => {
+  //   if (currentReportFileName && !uploading) {
+  //     reportSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // }, [currentReportFileName, uploading]);
 
   useEffect(() => {
     if (duplicateCode && duplicateCode.length > 0) {
@@ -366,20 +367,22 @@ const index: React.FC = () => {
     }, duration);
   };
   return (
-    <div className={styles.mainContainer}>
-      <header className={styles.header}>
-        <img
-          src="/assets/kings-college-london-logo.jpeg"
-          alt="King's College London"
-          className={styles.logo}
-        />
-      </header>
-      <div className={styles.lineBelowLogo} />
-      <main className={styles.content}>
-        <div className={styles.mainContainer}></div>
-        <div className={styles.headerContainer}>
+    <>
+      <div className={styles.topMainContainer}>
+        <div {...getRootProps()}>
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p className={styles.dropBoxHover}>Drop the folders here ...</p>
+          ) : (
+            <p className={styles.dragBox}>
+              Drag your code folder here or click to select single file
+            </p>
+          )}
+        </div>
+      </div>
+      <div className={styles.mainContainer}>
+        <div className={styles.leftMainContainer}>
           <div className={styles.titleWithIcon}>
-            <h1 className={styles.title}>Static Code Analyser</h1>
             <p
               onClick={() => {
                 if (window.confirm("Do you want to delete the report?")) {
@@ -392,217 +395,208 @@ const index: React.FC = () => {
               <img src="/assets/bin_icon.png" alt="Clear" />
             </p>
           </div>
+
+          <div className={styles.fileList}>
+            {uploadedFiles
+              .filter((file) => file.name.endsWith(".py"))
+              .map((file, index) => (
+                <div key={index}>
+                  <button
+                    type="button"
+                    className={styles.fileItem}
+                    onClick={() => handleSubmit(index)}
+                  >
+                    {file.name}
+                  </button>
+                  {uploading && currentFile === file && (
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
+                  )}
+                </div>
+              ))}
+          </div>
         </div>
-        <div {...getRootProps()}>
-          <input {...getInputProps()} />
-          {isDragActive ? (
-            <p className={styles.dropBoxHover}>Drop the folders here ...</p>
-          ) : (
-            <p className={styles.dragBox}>
-              Drag your code folder here or click to select single file
-            </p>
-          )}
+        <div className={styles.rightMainContainer}>
+          <div className={styles.reportSection}>
+            {currentReportFileName && !uploading && (
+              <h2 style={{ fontSize: "1.5em", fontWeight: "bold" }}>
+                {currentReportFileName} Report
+              </h2>
+            )}
+            <div className={styles.reportContainer}>
+              {isAnalysisComplete && !hasLengthIssue && (
+                <>
+                  <h2 className={styles.reportTitle}>
+                    Function Length & Docstring Report
+                  </h2>
+                  <div className={styles.lineBelowReportTitle} />
+                  <div className={styles.noIssueMessage}>
+                    No Methods or Docstring in the file
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.reportContainer}>
+              {isAnalysisComplete && !hasDuplicateCodeIssue && (
+                <>
+                  <h2 className={styles.reportTitle}>Duplicate Code Report</h2>
+                  <div className={styles.lineBelowReportTitle} />
+                  <div className={styles.noIssueMessage}>
+                    No issues With Code Duplicate
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.reportContainer}>
+              {isAnalysisComplete && !hasReturnTypeConsistencyIssue && (
+                <>
+                  <h2 className={styles.reportTitle}>
+                    Return Type Consistency Report
+                  </h2>
+                  <div className={styles.lineBelowReportTitle} />
+                  <div className={styles.noIssueMessage}>
+                    No issues With Return Type Consistency
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.reportContainer}>
+              {isAnalysisComplete && !hasDeadCodeIssue && (
+                <>
+                  <h2 className={styles.reportTitle}>Dead Code Report</h2>
+                  <div className={styles.lineBelowReportTitle} />
+                  <div className={styles.noIssueMessage}>
+                    No issues With Dead Code
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.reportContainer}>
+              {isAnalysisComplete && !hasArgumentNormalizationIssue && (
+                <>
+                  <h2 className={styles.reportTitle}>
+                    Argument Normalization Report
+                  </h2>
+                  <div className={styles.lineBelowReportTitle} />
+                  <div className={styles.noIssueMessage}>
+                    No issues With Argument Normalization
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.reportContainer}>
+              {isAnalysisComplete && !hasRepetitivePatternsIssue && (
+                <>
+                  <h2 className={styles.reportTitle}>
+                    Repetitive Patterns Report
+                  </h2>
+                  <div className={styles.lineBelowReportTitle} />
+                  <div className={styles.noIssueMessage}>
+                    No issues With Repetitive Patterns
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.reportContainer}>
+              {isAnalysisComplete && !hasClassCohesiontIssue && (
+                <>
+                  <h2 className={styles.reportTitle}>Class Cohesion Report</h2>
+                  <div className={styles.lineBelowReportTitle} />
+                  <div className={styles.noIssueMessage}>
+                    No issues With Class Cohesion
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.reportContainer}>
+              {isAnalysisComplete && !hasRedundantExceptBlockIssue && (
+                <>
+                  <h2 className={styles.reportTitle}>
+                    Redundant Except Block Report
+                  </h2>
+                  <div className={styles.lineBelowReportTitle} />
+                  <div className={styles.noIssueMessage}>
+                    No issues With Redundant Except Block
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.reportContainer}>
+              {isAnalysisComplete && !hasModuleOrganizationIssue && (
+                <>
+                  <h2 className={styles.reportTitle}>
+                    Module Organization Report
+                  </h2>
+                  <div className={styles.lineBelowReportTitle} />
+                  <div className={styles.noIssueMessage}>
+                    No issues With Redundant Module Organization
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.reportContainer}>
+              {isAnalysisComplete && !hasVariableUsageIssue && (
+                <>
+                  <h2 className={styles.reportTitle}>Variable Usage Report</h2>
+                  <div className={styles.lineBelowReportTitle} />
+                  <div className={styles.noIssueMessage}>
+                    No issues With Variable Usage
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.reportContainer}>
+              {isAnalysisComplete && !hasFunctionGraphIssue && (
+                <>
+                  <h2 className={styles.reportTitle}>Function Graph Report</h2>
+                  <div className={styles.lineBelowReportTitle} />
+                  <div className={styles.noIssueMessage}>
+                    No issues With Function Graph
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.reportContainer}>
+              {isAnalysisComplete && !hasFunctionCyclomaticIssue && (
+                <>
+                  <h2 className={styles.reportTitle}>
+                    Function Cyclomatic Report
+                  </h2>
+                  <div className={styles.lineBelowReportTitle} />
+                  <div className={styles.noIssueMessage}>
+                    No issues With Function Cyclomatic
+                  </div>
+                </>
+              )}
+            </div>
+            <FunctionLengthReport return_lengths={lengthReport} />
+            <DuplicateCodeReport duplicateCode={duplicateCode} />
+            <DeadCodeReport deadCode={deadCode} />
+            <ReturnTypeConsistencyReport
+              returnTypeReport={returnTypeConsistencyReport}
+            />
+            <ArgumentNormalizationReport
+              returnArgumentNormalization={argumentNormalization}
+            />
+            <RepetitivePatternReport
+              repetitivePatterns={repetitivePatternsReport}
+            />
+            <CodeHealthReport codeHealthIssues={codeHealthReport} />
+            <ClassCohesionReport classCohesionIssue={classCohesionReport} />
+            <RedundantExceptBlockIssueReport
+              redundantExceptBlockIssue={redundantExceptBlockReport}
+            />
+            <ModuleOrganizationReport
+              moduleOrganizationIssue={moduleOrganizationReport}
+            />
+            <VariableUsageReport variableUsageIssue={variableUsageReport} />
+            <FunctionGraphReport callFunctionGraph={functionGraphReport} />
+            <FunctionCyclomaticReport
+              functionComplexityIssues={functionCyclomaticReport}
+            />
+          </div>
         </div>
-        <div className={styles.fileList}>
-          {uploadedFiles
-            .filter((file) => file.name.endsWith(".py"))
-            .map((file, index) => (
-              <div key={index}>
-                <button
-                  type="button"
-                  className={styles.fileItem}
-                  onClick={() => handleSubmit(index)}
-                >
-                  {file.name}
-                </button>
-                {uploading && currentFile === file && (
-                  <LoadingBar progress={progress} />
-                )}
-              </div>
-            ))}
-        </div>
-        <div ref={reportSectionRef} className={styles.reportSection}>
-          {currentReportFileName && !uploading && (
-            <h2 style={{ fontSize: "1.5em", fontWeight: "bold" }}>
-              <div className={styles.lineBelowReportTitle} />
-              {currentReportFileName} Report
-              <div className={styles.lineBelowReportTitle} />
-            </h2>
-          )}
-          <div className={styles.reportContainer}>
-            {isAnalysisComplete && !hasLengthIssue && (
-              <>
-                <h2 className={styles.reportTitle}>
-                  Function Length & Docstring Report
-                </h2>
-                <div className={styles.lineBelowReportTitle} />
-                <div className={styles.noIssueMessage}>
-                  No Methods or Docstring in the file
-                </div>
-              </>
-            )}
-          </div>
-          <div className={styles.reportContainer}>
-            {isAnalysisComplete && !hasDuplicateCodeIssue && (
-              <>
-                <h2 className={styles.reportTitle}>Duplicate Code Report</h2>
-                <div className={styles.lineBelowReportTitle} />
-                <div className={styles.noIssueMessage}>
-                  No issues With Code Duplicate
-                </div>
-              </>
-            )}
-          </div>
-          <div className={styles.reportContainer}>
-            {isAnalysisComplete && !hasReturnTypeConsistencyIssue && (
-              <>
-                <h2 className={styles.reportTitle}>
-                  Return Type Consistency Report
-                </h2>
-                <div className={styles.lineBelowReportTitle} />
-                <div className={styles.noIssueMessage}>
-                  No issues With Return Type Consistency
-                </div>
-              </>
-            )}
-          </div>
-          <div className={styles.reportContainer}>
-            {isAnalysisComplete && !hasDeadCodeIssue && (
-              <>
-                <h2 className={styles.reportTitle}>Dead Code Report</h2>
-                <div className={styles.lineBelowReportTitle} />
-                <div className={styles.noIssueMessage}>
-                  No issues With Dead Code
-                </div>
-              </>
-            )}
-          </div>
-          <div className={styles.reportContainer}>
-            {isAnalysisComplete && !hasArgumentNormalizationIssue && (
-              <>
-                <h2 className={styles.reportTitle}>
-                  Argument Normalization Report
-                </h2>
-                <div className={styles.lineBelowReportTitle} />
-                <div className={styles.noIssueMessage}>
-                  No issues With Argument Normalization
-                </div>
-              </>
-            )}
-          </div>
-          <div className={styles.reportContainer}>
-            {isAnalysisComplete && !hasRepetitivePatternsIssue && (
-              <>
-                <h2 className={styles.reportTitle}>
-                  Repetitive Patterns Report
-                </h2>
-                <div className={styles.lineBelowReportTitle} />
-                <div className={styles.noIssueMessage}>
-                  No issues With Repetitive Patterns
-                </div>
-              </>
-            )}
-          </div>
-          <div className={styles.reportContainer}>
-            {isAnalysisComplete && !hasClassCohesiontIssue && (
-              <>
-                <h2 className={styles.reportTitle}>Class Cohesion Report</h2>
-                <div className={styles.lineBelowReportTitle} />
-                <div className={styles.noIssueMessage}>
-                  No issues With Class Cohesion
-                </div>
-              </>
-            )}
-          </div>
-          <div className={styles.reportContainer}>
-            {isAnalysisComplete && !hasRedundantExceptBlockIssue && (
-              <>
-                <h2 className={styles.reportTitle}>
-                  Redundant Except Block Report
-                </h2>
-                <div className={styles.lineBelowReportTitle} />
-                <div className={styles.noIssueMessage}>
-                  No issues With Redundant Except Block
-                </div>
-              </>
-            )}
-          </div>
-          <div className={styles.reportContainer}>
-            {isAnalysisComplete && !hasModuleOrganizationIssue && (
-              <>
-                <h2 className={styles.reportTitle}>
-                  Module Organization Report
-                </h2>
-                <div className={styles.lineBelowReportTitle} />
-                <div className={styles.noIssueMessage}>
-                  No issues With Redundant Module Organization
-                </div>
-              </>
-            )}
-          </div>
-          <div className={styles.reportContainer}>
-            {isAnalysisComplete && !hasVariableUsageIssue && (
-              <>
-                <h2 className={styles.reportTitle}>Variable Usage Report</h2>
-                <div className={styles.lineBelowReportTitle} />
-                <div className={styles.noIssueMessage}>
-                  No issues With Variable Usage
-                </div>
-              </>
-            )}
-          </div>
-          <div className={styles.reportContainer}>
-            {isAnalysisComplete && !hasFunctionGraphIssue && (
-              <>
-                <h2 className={styles.reportTitle}>Function Graph Report</h2>
-                <div className={styles.lineBelowReportTitle} />
-                <div className={styles.noIssueMessage}>
-                  No issues With Function Graph
-                </div>
-              </>
-            )}
-          </div>
-          <div className={styles.reportContainer}>
-            {isAnalysisComplete && !hasFunctionCyclomaticIssue && (
-              <>
-                <h2 className={styles.reportTitle}>
-                  Function Cyclomatic Report
-                </h2>
-                <div className={styles.lineBelowReportTitle} />
-                <div className={styles.noIssueMessage}>
-                  No issues With Function Cyclomatic
-                </div>
-              </>
-            )}
-          </div>
-          <FunctionLengthReport return_lengths={lengthReport} />
-          <DuplicateCodeReport duplicateCode={duplicateCode} />
-          <DeadCodeReport deadCode={deadCode} />
-          <ReturnTypeConsistencyReport
-            returnTypeReport={returnTypeConsistencyReport}
-          />
-          <ArgumentNormalizationReport
-            returnArgumentNormalization={argumentNormalization}
-          />
-          <RepetitivePatternReport
-            repetitivePatterns={repetitivePatternsReport}
-          />
-          <CodeHealthReport codeHealthIssues={codeHealthReport} />
-          <ClassCohesionReport classCohesionIssue={classCohesionReport} />
-          <RedundantExceptBlockIssueReport
-            redundantExceptBlockIssue={redundantExceptBlockReport}
-          />
-          <ModuleOrganizationReport
-            moduleOrganizationIssue={moduleOrganizationReport}
-          />
-          <VariableUsageReport variableUsageIssue={variableUsageReport} />
-          <FunctionGraphReport callFunctionGraph={functionGraphReport} />
-          <FunctionCyclomaticReport
-            functionComplexityIssues={functionCyclomaticReport}
-          />
-        </div>
-      </main>
-    </div>
+      </div>
+    </>
   );
 };
 export default index;

@@ -1,50 +1,64 @@
 .mainContainer {
-  width: 100%; 
-  max-width: 1200px;
-  margin: 0 auto; 
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  height: 100vh;
+  width: 1800px;
   padding: 16px;
-  box-sizing: border-box;
-  }
+  background-color: #f6f6f6;
+}
 
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-    color: white;
-    text-align: center;
-  }
+.leftMainContainer {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
-  .lineBelowReportTitle {
-    height: 2px; 
-    background-color: rgb(0, 0, 0); 
-    width: 100%; 
-    margin-top: 10px; 
-  }
-  
-  .logo {
-    width: 150px; 
-    height: auto;
-  }
-  
-  .navbar {
-    display: flex;
-    gap: 1rem;
-  }
+.rightMainContainer {
+  padding: 100px;
+  display: flex;
+  flex: 2;
+}
 
+.reportSection {
+  display: flex;
+  padding-top: 0px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: left;
+
+  color: white;
+  text-align: left;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+}
+
+.navbar {
+  display: flex;
+  gap: 1rem;
+}
 
 .loadingBarContainer {
   width: 100%;
-  background-color: #ffffff; 
-  border-radius: 8px; 
-  overflow: hidden; 
-  height: 20px; 
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 20px;
 }
 
-
 .noIssueMessage {
-  background-color: #d4edda; 
-  color: #155724; 
+  background-color: #d4edda;
+  color: #155724;
   padding: 20px;
   margin-top: 20px;
   text-align: center;
@@ -54,89 +68,101 @@
 
 .headerContainer {
   display: flex;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: left;
+  align-items: left;
+  flex-direction: column;
   height: 100px;
-
-}
-
-.titleWithIcon {
-  display: flex;
-  align-items: center; 
-  gap: 10px; 
 }
 
 .clearButton img {
-  width: 24px;  
-  height: auto; 
+  width: 24px;
+  height: auto;
 }
 
 .loadingBar {
-  height: 20px; 
-  background-color: #ff0000; 
-  width: 0%; 
-  transition: width 0.5s ease-in-out; 
-  border-radius: 8px; 
+  height: 20px;
+  background-color: #ff0000;
+  width: 0%;
+  transition: width 0.5s ease-in-out;
+  border-radius: 8px;
 }
 
+.navLink {
+  /* color: white; */
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+  text-decoration: underline;
+}
 
-  
-  .navLink {
-    /* color: white; */
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s ease;
-    text-decoration: underline;
-  }
-  
-  .navLink:hover {
-    background-color: rgb(211, 201, 201);
-    
-  }
-  
-  .content {
-    padding: 2rem;
-    text-align: center;
-  }
+.navLink:hover {
+  background-color: rgb(201, 36, 36);
+}
 
-  .fileItem{
-    padding: 20px;
-    margin: 2rem auto;
-    width: 30%; 
-    background-color: #eba4a4;
-    cursor: pointer;
-    min-width: 200px;
-    border-radius: 25px;
-  }
+.fileItem {
+  display: flex;
+  flex-direction: row;
+  border: none;
+  width: 30%;
+  cursor: pointer;
+  color: rgb(0, 0, 0);
+  align-items: center;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  background-color: transparent;
+}
 
-  .fileList {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; 
-  }
+.fileItem:hover {
+  background-color: #e6e6fa; /* Light purple background */
+  color: #4b0082; /* Dark purple text */
+}
 
-  .dropBoxHover {
-    border: 2px dashed #df6a6a;
-      padding: 40px;
-      margin: 2rem auto;
-      width: 50%;
-      cursor: pointer;
-      background-color: #fdaeae; 
-  }
-  
-  .dragBox {
-    border: 2px dashed #ff0000;
-    padding: 40px;
-    margin: 2rem auto;
-    width: 50%; 
-    cursor: pointer;
-    background-color: #fffefe; 
-  }
-  
-  .lineBelowLogo {
-    height: 2px; 
-    background-color: rgb(174, 174, 174); 
-    width: 100%;
-    margin-top: 10px; 
-  }
-  
+.fileList {
+  display: flex;
+  margin-left: 80px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  max-width: 400px;
+  gap: 8px;
+  width: 100%;
+  margin-top: 20px;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.topMainContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100px;
+}
+
+.dropBoxHover {
+  border: 2px dashed #df6a6a;
+  padding: 40px;
+  width: 100%;
+  min-height: 100px;
+  cursor: pointer;
+  background-color: #fdaeae;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dragBox {
+  border: 2px dashed grey;
+  padding: 20px;
+  margin-left: 80px;
+  width: 100%;
+  min-height: 100px;
+  cursor: pointer;
+  background-color: #fffefe;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
